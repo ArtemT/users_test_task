@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Пользователи{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-start align-items-center">
+            <div class="col">
+                <h1>Пользователи</h1>
+            </div>
+            <div class="col col-md-4">
+                <a href="/user/add" class="btn btn-primary">Добавить пользователя</a>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Отчество</th>
+                        <th scope="col">Статус</th>
+                        <th scope="col"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr class="clickable" data-href="/user/{{ user.id }}/edit">
+                            <td>{{ user.lastname }}</td>
+                            <td>{{ user.firstname }}</td>
+                            <td>{{ user.patname }}</td>
+                            <td>{{ user.status | replace({1: "Первый", 2: "Второй", 3: "Третий"}) }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

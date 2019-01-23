@@ -26,8 +26,12 @@ th.sortable {
     }
     .filterable {
         padding: 0 1.5rem 0 0;
+        cursor: pointer;
         &:hover {
             background: url("../images/filter.png") no-repeat right center;
+        }
+        &.filtered:hover {
+            background: none;
         }
     }
 }

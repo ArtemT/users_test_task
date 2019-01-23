@@ -6,32 +6,42 @@ body {
     background-color: lightgray;
 }
 
-th.sortable {
-    padding-right: 1.5rem;
-
-    &:hover {
-        padding-right: 0;
+table.users {
+    th, td {
+        padding-left: 1.5rem;
     }
-    &:hover, &.sorted {
-        background: url("../images/sort-down.png") no-repeat right center;
-    }
-    &.sorted-desc, &.sorted:hover {
-        background: url("../images/sort-up.png") no-repeat right center;
-    }
-    .sort-link {
-        display: block;
-        float: right;
-        width: 1.5rem;
-        height: 1.5rem;
-    }
-    .filterable {
-        padding: 0 1.5rem 0 0;
-        cursor: pointer;
+    th.sortable {
         &:hover {
-            background: url("../images/filter.png") no-repeat right center;
+            padding-left: 0;
+            span {
+                margin-left: 1.5rem;
+            }
         }
-        &.filtered:hover {
-            background: none;
+        &:hover, &.sorted {
+            background: url("../images/sort-down.png") no-repeat 4px center;
+        }
+        &.sorted-desc, &.sorted:hover {
+            background: url("../images/sort-up.png") no-repeat 4px center;
+        }
+        .sort-link, .filter-link {
+            position: absolute;
+            min-width: 1.5rem;
+            height: 1.5rem;
+            line-height: 1.2rem;
+        }
+        .filterable {
+            margin-right: 0.5rem;
+            line-height: 1.2rem;
+        }
+        .filter-link {
+            background-image: url("../images/filter.png");
+            background-repeat: no-repeat;
+            background-position: 4px;
+            cursor: pointer;
+
+            &.filtered {
+                padding-left: 1.5rem;
+            }
         }
     }
 }

@@ -12,4 +12,13 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    public function search($filterBy, $filterKey, $sortBy, $sortOrder) {
+        $q = $this->createQueryBuilder('u')
+            ->where('u.' . $filterBy . ' LIKE :key')
+            ->setParameter('key', '%' . $filterKey . '%')
+            ->orderBy('u.' . $sortBy, $sortOrder)
+            ->getQuery();
+        return $q->execute();
+    }
 }

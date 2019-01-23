@@ -15,22 +15,46 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/user/list", methods={"GET"}), name="user_index")
-     * @Route("/user/sorted-by/{sorting_field}/{order}", methods={"GET"}), name="user_sorted")
      */
-    public function index(Request $request, string $sorting_field = '', string $order = ''): Response
+    public function index(Request $request): Response
     {
+        $fields = ['firstname', 'lastname', 'patname', 'status'];
+        $filterBy = '';
+        $filterKey = '';
+        $sortBy = 'id';
+        $sortOrder = 'ASC';
+        foreach ($fields as $field) {
+            $key = filter_var($request->query->get('filter-by-' . $field), FILTER_SANITIZE_STRING);
+            if (!empty($key)) {
+                $filterKey = $key;
+                $filterBy = $field;
+                break;
+            }
+        }
+        foreach (['sort-asc' => 'ASC', 'sort-desc' => 'DESC'] as $key => $order) {
+            $field = $request->query->get($key);
+            if (!empty($field) && in_array($field, $fields)) {
+                $sortBy = $field;
+                $sortOrder = $order;
+                break;
+            }
+        }
         $repository = $this->getDoctrine()->getRepository(User::class);
-        if (!empty($sorting_field)) {
-            $order = $order === 'desc' ? 'DESC' : 'ASC';
-            $users = $repository->findBy([], [$sorting_field => $order]);
+        if (empty($filterBy) && $sortBy == 'id') {
+            $users = $repository->findAll();
+        }
+        elseif (empty($filterBy)) {
+            $users = $repository->findBy([], [$sortBy => $sortOrder]);
         }
         else {
-            $users = $repository->findAll();
+            $users = $repository->search($filterBy, $filterKey, $sortBy, $sortOrder);
         }
         return $this->render('user/index.html.twig', [
             'users' => $users,
-            'sorted' => $sorting_field,
-            'order' => $order,
+            'filterBy' => $filterBy,
+            'filterKey' => $filterKey,
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
         ]);
     }
 

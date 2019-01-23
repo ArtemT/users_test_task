@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="row">
-            <table class="table table-hover">
+            <table class="table table-hover users">
                 <thead>
                     <tr>
                         {% set columns = {
@@ -24,8 +24,8 @@
                         } %}
                         {% for field, title in columns %}
                             {% set class = ['sortable'] %}
-                            {% if sorted is same as(field) %}
-                                {% if order is same as('DESC') %}
+                            {% if sortBy is same as(field) %}
+                                {% if sortOrder is same as('DESC') %}
                                     {% set class = class|merge(['sorted-desc']) %}
                                 {% else %}
                                     {% set class = class|merge(['sorted']) %}
@@ -33,6 +33,9 @@
                             {% endif %}
                             <th scope="col" class="{{ class|join(' ') }}" data-field="{{ field }}">
                                 <span class="filterable">{{ title }}</span>
+                                {% if filterBy is same as(field) %}
+                                    <a class="badge badge-pill badge-light filter-link filtered">{{ filterKey }}</a>
+                                {% endif %}
                             </th>
                         {% endfor %}
                     </tr>

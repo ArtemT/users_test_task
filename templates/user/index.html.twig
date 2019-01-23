@@ -16,11 +16,25 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Фамилия</th>
-                        <th scope="col">Имя</th>
-                        <th scope="col">Отчество</th>
-                        <th scope="col">Статус</th>
-                        <th scope="col"> </th>
+                        {% set columns = {
+                            lastname: 'Фамилия',
+                            firstname: 'Имя',
+                            patname: 'Отчество',
+                            status: 'Статус',
+                        } %}
+                        {% for field, title in columns %}
+                            {% set class = ['sortable'] %}
+                            {% if sorted is same as(field) %}
+                                {% if order is same as('DESC') %}
+                                    {% set class = class|merge(['sorted-desc']) %}
+                                {% else %}
+                                    {% set class = class|merge(['sorted']) %}
+                                {% endif %}
+                            {% endif %}
+                            <th scope="col" class="{{ class|join(' ') }}" data-field="{{ field }}">
+                                <span class="filterable">{{ title }}</span>
+                            </th>
+                        {% endfor %}
                     </tr>
                 </thead>
                 <tbody>

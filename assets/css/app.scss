@@ -1,8 +1,33 @@
 /**
  */
-
 @import "~bootstrap/scss/bootstrap";
 
 body {
     background-color: lightgray;
+}
+
+th.sortable {
+    padding-right: 1.5rem;
+
+    &:hover {
+        padding-right: 0;
+    }
+    &:hover, &.sorted {
+        background: url("../images/sort-down.png") no-repeat right center;
+    }
+    &.sorted-desc, &.sorted:hover {
+        background: url("../images/sort-up.png") no-repeat right center;
+    }
+    .sort-link {
+        display: block;
+        float: right;
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    .filterable {
+        padding: 0 1.5rem 0 0;
+        &:hover {
+            background: url("../images/filter.png") no-repeat right center;
+        }
+    }
 }

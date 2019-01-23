@@ -14,4 +14,30 @@ $(document).ready(function() {
     $(".clickable").click(function() {
         window.location = $(this).data("href");
     });
+
+    const sortable = $(".sortable");
+    const link = '<a class="sort-link"></a>';
+    sortable.not(".sorted").hover(
+        function() {
+            $(link).attr('href', "/user/sorted-by/" + this.dataset.field)
+                .appendTo(this);
+        },
+        function() {
+            $(this).find(".sort-link").remove();
+        }
+    );
+    sortable.filter(".sorted").hover(
+        function() {
+            $(link).attr('href', "/user/sorted-by/" + this.dataset.field + "/desc")
+                .appendTo(this);
+        },
+        function() {
+            $(this).find(".sort-link").remove();
+        }
+    );
+
+    const filterable = $(".filterable");
+    filterable.not(".filtered").click(function() {
+        console.log(this);
+    });
 });

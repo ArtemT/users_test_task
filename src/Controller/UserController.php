@@ -15,13 +15,22 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/user/list", methods={"GET"}), name="user_index")
+     * @Route("/user/sorted-by/{sorting_field}/{order}", methods={"GET"}), name="user_sorted")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, string $sorting_field = '', string $order = ''): Response
     {
         $repository = $this->getDoctrine()->getRepository(User::class);
-        $users = $repository->findAll();
+        if (!empty($sorting_field)) {
+            $order = $order === 'desc' ? 'DESC' : 'ASC';
+            $users = $repository->findBy([], [$sorting_field => $order]);
+        }
+        else {
+            $users = $repository->findAll();
+        }
         return $this->render('user/index.html.twig', [
             'users' => $users,
+            'sorted' => $sorting_field,
+            'order' => $order,
         ]);
     }
 
@@ -68,7 +77,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}/delete", methods={"GET", "POST"}, name="user_delete")
+     * @Route("/user/{id}/delete", methods={"GET", "DELETE"}, name="user_delete")
      */
     public function delete(Request $request, int $id): Response {
         $entityManager = $this->getDoctrine()->getManager();
@@ -89,6 +98,7 @@ class UserController extends AbstractController
                 'label' => 'Удалить',
                 'attr' => ['class' => 'btn-danger'],
             ])
+            ->setMethod('DELETE')
             ->getForm();
 
         $form->handleRequest($request);

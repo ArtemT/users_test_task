@@ -32,11 +32,14 @@ class UserType extends AbstractType
                     'Третий' => 3,
                 ],
             ])
-            ->add('save', SubmitType::class, ['label' => 'Сохранить'])
-            ->add('delete', SubmitType::class, [
+            ->add('save', SubmitType::class, ['label' => 'Сохранить']);
+        if (!empty($options['data']->getId())) {
+            $builder->add('delete', SubmitType::class, [
                 'label' => 'Удалить',
                 'attr' => ['class' => 'btn-danger'],
             ]);
+        }
+        dump($options);
     }
 
     public function configureOptions(OptionsResolver $resolver)
